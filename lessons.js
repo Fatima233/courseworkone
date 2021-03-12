@@ -45,15 +45,6 @@ const lessons = [
         image: "https://cdn.britannica.com/29/42129-004-6AC90261/spirit-mask-beauty-peacefulness-society-wood-Nigeria.jpg",
     },
     {
-        id: 6,
-        subject: "Latin",
-        location: "Bristol",
-        currency: "$",
-        price : 600,
-        spaces : 5,
-        image: "https://i.pinimg.com/originals/47/b1/68/47b168de4d00e52e802bdfeca11d3a4f.png",
-    },
-    {
         id: 7,
         subject: "Italian",
         location: "Malta",
