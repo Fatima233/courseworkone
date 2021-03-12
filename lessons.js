@@ -54,6 +54,15 @@ const lessons = [
         image: "https://i.pinimg.com/originals/47/b1/68/47b168de4d00e52e802bdfeca11d3a4f.png",
     },
     {
+        id: 7,
+        subject: "Italian",
+        location: "Malta",
+        currency: "$",
+        price : 700,
+        spaces : 5,
+        image: "https://i.pinimg.com/originals/c9/8e/61/c98e6168e20b32e18a12002da42ed001.jpg",
+    },
+    {
         id: 8,
         subject: "Mandarin",
         location: "New York",
