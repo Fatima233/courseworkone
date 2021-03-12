@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lesson Park</title>
+        <!-- Bootstrap CSS library -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <!-- Vue JS -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <header>
+                <div class="navbar fixed-top navbar-dark bg-light shadow-sm">
+                    <div class="container">
+                        <a href="index.html" class="navbar-brand d-flex align-items-center">
+                        <strong v-text="sitename" class="text-dark"></strong>
+                        </a>
+                        <div v-if="canShowShoppingCart" class="navbar d-flex align-items-right text-dark btn btn-md" v-on:click="showCheckoutPage">
+                            <strong>Cart - {{ shoppingCartCount }}</strong>
+                        </div>
+                        <div v-if="canShowCheckoutPage" class="navbar d-flex align-items-right text-dark btn btn-md" v-on:click="unshowCheckoutPage">
+                             <strong> Return Back</strong>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+                <!-- Checkout Page -->
+                <main v-if="canShowCheckoutPage">
+                    <section class="py-5 text-center container">
+                        <div class="row py-lg-5">
+                            <div class="col-lg-6 col-md-8 mx-auto">
+                                <h1 class="fw-light">Lesson Park - Checkout Page</h1>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div v-if="shouldShowSubmissionAlert" class="alert alert-warning text-center" role="alert">
+                        Your Order has been submitted successfully!
+                        <button v-on:click="unshowSubmissionAlert" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <div class="album py-5 bg-light">
+                        <div class="container">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
+                                <div class="col" v-for="(lesson, index) in cart">
+                                    <div class="card shadow-sm">
+                                        <img class="bd-placeholder-img card-img-top" v-bind:src="lesson.image" width="100%" height="225" />
+                            
+                                        <div class="card-body" id="startShopping">
+                                            <div class="row">
+                                                <div class="col-9">  <p class="card-text">{{ lesson.subject }}</p> </div>
+                                                <div class="col-3">  <p class="card-text alight-right">{{ lesson.location }}</p> </div>
+                                            </div>
+                                            <p class="card-text">{{ lesson.spaces }} Spaces Available</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">{{lesson.currency}} {{lesson.price}}</small>
+                                                <div class="btn-group">
+                                                    <button v-on:click="removeFromCart(lesson, index)" type="button" class="btn btn-sm btn-outline-primary">remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="completeShopping" class="container text-center">
+                        <form class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="col-12">
+                              <label class="visually-hidden" for="inlineFormInputGroupUsername">Name</label>
+                              <div class="input-group">
+                                <div class="input-group-text">Name</div>
+                                <input v-model="checkout.name" type="text" class="form-control" id="inlineFormInputGroupName" placeholder="Name">
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="visually-hidden" for="inlineFormInputGroupUsername">Phone</label>
+                                <div class="input-group">
+                                  <div class="input-group-text">Phone</div>
+                                  <input v-model="checkout.phone" type="tel" class="form-control" id="inlineFormInputGroupPhone" placeholder="Phone">
+                                </div>
+                              </div>
+                          
+                            <div class="col-12">
+                              <button v-on:click="showSubmissionAlert" type="button" class="btn btn-primary" v-if="canShowCheckoutButton">Checkout</button>
+                            </div>
+                          </form>
+                    </div>
+                </main>
+
+                <!-- Shopping Cart Page -->
+                <main v-else>
+                    <section class="py-5 text-center container">
+                        <div class="row py-lg-5">
+                            <div class="col-lg-6 col-md-8 mx-auto">
+                                <h1 class="fw-light">Lesson Park - Shopping Page</h1>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="album py-5 bg-light">
+                        <div class="container">
+
+                            <nav class="navbar navbar-light bg-light">
+                                <div class="container-fluid">
+                                    <form class="d-flex">
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.sort" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="subject">
+                                            <label class="form-check-label" for="inlineRadio1">Subject</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.sort" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="location">
+                                            <label class="form-check-label" for="inlineRadio2">Location</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.sort" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="price">
+                                            <label class="form-check-label" for="inlineRadio3">Price</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.sort" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="spaces">
+                                            <label class="form-check-label" for="inlineRadio4">Available</label>
+                                        </div>
+                                    </form>
+                                    <form class="d-flex">
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.direction" class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio1" value="asc">
+                                            <label class="form-check-label" for="inlineRadio1">Ascending</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input v-model="filter.direction" class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio2" value="des">
+                                            <label class="form-check-label" for="inlineRadio2">Descending</label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </nav>
+                            
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
+                                <div class="col" v-for="lesson in filteredLessons">
+                                    <div class="card shadow-sm">
+                                        <img class="bd-placeholder-img card-img-top" v-bind:src="lesson.image" width="100%" height="225" />
+                            
+                                        <div class="card-body" id="startShopping">
+                                            <div class="row">
+                                                <div class="col-9">  <p class="card-text">{{ lesson.subject }}</p> </div>
+                                                <div class="col-3">  <p class="card-text alight-right">{{ lesson.location }}</p> </div>
+                                            </div>
+                                            <p class="card-text">{{ lesson.spaces }} Spaces Left</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">{{lesson.currency}} {{lesson.price}}</small>
+                                                <div class="btn-group">
+                                                <button v-on:click="addTocart(lesson)" type="button" class="btn btn-sm btn-outline-secondary" v-if="canAddToCart(lesson)">add to cart</button>
+                                                </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+            <footer class="text-muted py-5">
+                <div class="container">
+                    <p class="float-end mb-1">
+                    <a href="#">Lesson Park</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+
+        <script src="lessons.js"></script>
+        <script>
+        var webstore = new Vue({
+            el: '#app',
+            data: {
+                sitename: 'Lesson Park',
+                lessons: lessons,
+                cart: [],
+                filter: {
+                    sort: "none",
+                    direction: "none"
+                },
+                checkoutPage: false,
+                checkout: {
+                    name: null,
+                    phone: null,
+                },
+                submissionAlert: false
+            },
+            methods: {
+                addTocart: function(lesson) {
+                    this.cart.push(lesson);
+                    lesson.spaces = lesson.spaces - 1;
+                    console.log(this.cart);
+                },
+                canAddToCart: function(lesson) {
+                    return lesson.spaces > 0;
+                },
+                showCheckoutPage: function () {
+                    return this.checkoutPage = true;
+                },
+                unshowCheckoutPage: function () {
+                    return this.checkoutPage = false;
+                },
+                removeFromCart: function (cartLesson, index) {
+                    this.cart = this.cart.filter((lesson, lessonIndex) => lessonIndex != index);
+                    cartLesson.spaces = cartLesson.spaces + 1;
+                },
+                showSubmissionAlert: function () {
+                    this.submissionAlert = true;
+                    this.cart = [];
+                },
+                unshowSubmissionAlert: function () {
+                    return this.submissionAlert = false;
+                }
+            },
+            computed: {
+                filteredLessons: function() {
+                    const sort = this.filter.sort;
+                    const direction = this.filter.direction;
+
+                    const sortString = function (a, b, property, direction) {
+                        var nameA = a[property].toUpperCase();
+                        var nameB = b[property].toUpperCase();
+
+                        if (nameA < nameB) {
+                            return direction == "asc" ? -1 : 1;
+                        }
+                        if (nameA > nameB) {
+                            return direction == "asc" ? 1 : -1;
+                        }
+
+                        return 0;
+                    }
+
+                    if (sort == "none" && direction == "none") {
+                        return this.lessons;
+                    }
+
+                    return this.lessons.sort(function (lessonA, lessonB) {
+
+                        if (["subject", "location"].includes(sort)) {
+                            return sortString(lessonA, lessonB, sort, direction);
+                        }
+
+                        return direction == "des" ? lessonB[sort] - lessonA[sort] : lessonA[sort] - lessonB[sort];
+                    });
+                },
+                canShowShoppingCart: function () {
+                    return this.cart.length > 0 && this.checkoutPage == false;
+                },
+                shoppingCartCount: function () {
+                    return this.cart.length;
+                },
+                canShowCheckoutPage: function () {
+                    return this.checkoutPage == true;
+                },
+                canShowCheckoutButton: function () {
+                    return /^\d+$/.test(this.checkout.phone) && /^[a-zA-Z]+$/.test(this.checkout.name) && this.cart.length > 0;
+                },
+                shouldShowSubmissionAlert: function () {
+                    return this.submissionAlert == true;
+                }
+            }
+        });
+        </script>
+    </body>
+</html>
