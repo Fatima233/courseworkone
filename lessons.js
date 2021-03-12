@@ -72,6 +72,15 @@ const lessons = [
         image: "https://bloximages.chicago2.vip.townnews.com/dailypost.vu/content/tncms/assets/v3/editorial/0/4b/04b4dc14-5295-11ea-beb5-1372fe9da332/5e4c5610e2275.image.jpg?resize=750%2C425",
     },
     {
+        id: 9,
+        subject: "Hausa",
+        location: "Lisbon",
+        currency: "$",
+        price : 900,
+        spaces : 5,
+        image: "https://cdn.britannica.com/s:300x169,c:crop/78/11178-004-344AE465/women-Hausa-cotton-cloth.jpg",
+    },
+    {
         id: 10,
         subject: "Spanish",
         location: "Spain",
