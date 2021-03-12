@@ -63,15 +63,6 @@ const lessons = [
         image: "https://i.pinimg.com/originals/c9/8e/61/c98e6168e20b32e18a12002da42ed001.jpg",
     },
     {
-        id: 8,
-        subject: "Mandarin",
-        location: "New York",
-        currency: "$",
-        price : 800,
-        spaces : 5,
-        image: "https://bloximages.chicago2.vip.townnews.com/dailypost.vu/content/tncms/assets/v3/editorial/0/4b/04b4dc14-5295-11ea-beb5-1372fe9da332/5e4c5610e2275.image.jpg?resize=750%2C425",
-    },
-    {
         id: 9,
         subject: "Hausa",
         location: "Lisbon",
