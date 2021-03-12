@@ -80,13 +80,4 @@ const lessons = [
         spaces : 5,
         image: "https://cdn.britannica.com/s:300x169,c:crop/78/11178-004-344AE465/women-Hausa-cotton-cloth.jpg",
     },
-    {
-        id: 10,
-        subject: "Spanish",
-        location: "Spain",
-        currency: "$",
-        price : 1000,
-        spaces : 5,
-        image: "https://images.vexels.com/media/users/3/169947/raw/4006c2988af335fa80abf88911aa3cf0-spanish-subject-illustration.jpg",
-    },
 ];
